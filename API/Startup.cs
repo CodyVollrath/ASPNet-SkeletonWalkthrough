@@ -17,6 +17,7 @@ namespace API
 {
     public class Startup
     {
+        private readonly string CorPolicy = "CorsPolicy";
         public Startup(IConfiguration configuration)
         {
             this.Configuration = configuration;
@@ -31,6 +32,13 @@ namespace API
             {
                 opt.UseSqlite(this.Configuration.GetConnectionString("DefaultConnection"));
             });
+            //TODO Change this so that it is specific to only the API request URLS within the domain of this project
+            services.AddCors(c => {
+                c.AddPolicy(this.CorPolicy, policy => {
+                    policy.AllowAnyHeader().AllowAnyMethod().WithOrigins("http://localhost:5000", "http://localhost:3000");
+
+                });
+            });
 
             services.AddControllers();
         }
@@ -44,6 +52,9 @@ namespace API
             }
             //TODO Turn this on when production ready
             //app.UseHttpsRedirection();
+            
+            //TODO Change this so that it is specific to only the API request URLS within the domain of this project
+            app.UseCors(this.CorPolicy);
 
             app.UseRouting();
 
