@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Application.Activties;
+using Application.Activities;
 using Domain;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -25,6 +25,11 @@ namespace API.Controllers
         public async Task<ActionResult<List<Activity>>> ListActivities()
         {
             return await this.mediator.Send(new ActivityCollection.Query());
+        }
+
+        [HttpGet("{id}")]
+        public async Task<ActionResult<Activity>> Details(Guid id){
+            return await this.mediator.Send(new ActivityDetails.Query { Id = id });
         }
 
 

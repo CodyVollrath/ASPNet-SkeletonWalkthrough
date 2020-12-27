@@ -6,7 +6,7 @@ using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Persistence;
 
-namespace Application.Activties
+namespace Application.Activities
 {
     public class ActivityCollection
     {
