@@ -1,25 +1,9 @@
 import React, {Component} from 'react';
-import logo from './logo.svg';
 import './App.css';
-import axios from 'axios';
 import { Header, Icon } from 'semantic-ui-react';
+import Activity from './Activity';
 
 class App extends Component {
-  state = {
-    values: []
-  }
-
-  componentDidMount() {
-    axios.get('http://localhost:5000/api/values').then(
-      (response) => {
-        console.log(response);
-        this.setState({
-          values: response.data
-        })
-      }
-    )
-
-  }
 
   render() {
     return (
@@ -30,11 +14,8 @@ class App extends Component {
             Reactivities
           </Header.Content>
         </Header>
-        <ul>
-          {this.state.values.map((value: any) => (
-            <li key = {value.id}>{value.name}</li>
-          ))}
-        </ul>
+        <Activity/>
+        
     </div>
     );
   }
