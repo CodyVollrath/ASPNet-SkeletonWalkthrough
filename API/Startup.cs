@@ -2,6 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Application.Activties;
+using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -32,14 +34,14 @@ namespace API
             {
                 opt.UseSqlite(this.Configuration.GetConnectionString("DefaultConnection"));
             });
-            //TODO Change this so that it is specific to only the API request URLS within the domain of this project
+
             services.AddCors(c => {
                 c.AddPolicy(this.CorPolicy, policy => {
                     policy.AllowAnyHeader().AllowAnyMethod().WithOrigins("http://localhost:5000", "http://localhost:3000");
 
                 });
             });
-
+            services.AddMediatR(typeof(ActivityCollection.Handler).Assembly);
             services.AddControllers();
         }
 
@@ -50,10 +52,10 @@ namespace API
             {
                 app.UseDeveloperExceptionPage();
             }
+
             //TODO Turn this on when production ready
             //app.UseHttpsRedirection();
             
-            //TODO Change this so that it is specific to only the API request URLS within the domain of this project
             app.UseCors(this.CorPolicy);
 
             app.UseRouting();
